@@ -1,5 +1,6 @@
 package com.example.kalTak.controller;
 
+import com.example.kalTak.Response.NewsResponse;
 import com.example.kalTak.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,8 @@ public class NewsController {
     NewsService newsService;
 
     @GetMapping
-    public Object getNews(@RequestParam("sources") String source,
-                          @RequestParam("apiKey") String apiKey) {
+    public NewsResponse getNews(@RequestParam("sources") String source,
+                                @RequestParam("apiKey") String apiKey) {
         return newsService.getNews(source,apiKey);
     }
 }
