@@ -4,6 +4,11 @@ import com.example.ProKart.model.Enum.Gender;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,6 +16,7 @@ import lombok.experimental.FieldDefaults;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Builder
 public class Customer {
 
     @Id
@@ -26,4 +32,10 @@ public class Customer {
 
     @Enumerated(EnumType.STRING)
     Gender gender;
+
+    @CreationTimestamp
+    Date created;
+
+    @OneToMany(mappedBy = "customer",cascade = CascadeType.ALL)
+    List<OrderEntity> orders = new ArrayList<>();
 }

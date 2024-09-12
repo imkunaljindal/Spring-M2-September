@@ -5,6 +5,10 @@ import com.example.ProKart.model.Enum.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.query.Order;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,4 +33,14 @@ public class Product {
 
     @Enumerated(EnumType.STRING)
     ProductStatus productStatus;
+
+    @ManyToOne
+    @JoinColumn
+    Seller seller;
+
+    @ManyToMany
+    @JoinTable(name="product_orders",
+    joinColumns = @JoinColumn(name="product_id"),
+    inverseJoinColumns = @JoinColumn(name="order_entity_id"))
+    List<OrderEntity> orders = new ArrayList<>();
 }
