@@ -6,6 +6,8 @@ import com.example.ProKart.model.Customer;
 import com.example.ProKart.model.Enum.Gender;
 import com.example.ProKart.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,13 +21,19 @@ public class CustomerController {
     CustomerService customerService;
 
     @PostMapping
-    public CustomerResponse addCustomer(@RequestBody CustomerRequest customerRequest) {
-        return customerService.addCustomer(customerRequest);
+    public ResponseEntity addCustomer(@RequestBody CustomerRequest customerRequest) {
+        try {
+            CustomerResponse customerResponse = customerService.addCustomer(customerRequest);
+            return new ResponseEntity<>(customerResponse, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Duplicate email", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/age/{age}")
-    public List<CustomerResponse> findByAge(@PathVariable("age") int age) {
-        return customerService.findByAge(age);
+    public ResponseEntity findByAge(@PathVariable("age") int age) {
+        List<CustomerResponse> customerResponses = customerService.findByAge(age);
+        return new ResponseEntity<>(customerResponses,HttpStatus.ACCEPTED);
     }
 
     // get people of a particular gender and age greater than. ex - all MALES with age >= 35

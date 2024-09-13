@@ -6,6 +6,7 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
 
+import javax.validation.constraints.Email;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,10 +29,14 @@ public class Customer {
     int age;
 
     @Column(unique = true, nullable = false)
+    @Email
     String email;
 
     @Enumerated(EnumType.STRING)
     Gender gender;
+
+//    @Size(min = 10,max = 10)
+//    String phoneNo;d
 
     @CreationTimestamp
     Date created;
