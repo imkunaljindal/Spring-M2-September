@@ -1,6 +1,7 @@
 package com.example.ProKart.model;
 
 import com.example.ProKart.model.Enum.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -34,9 +35,11 @@ public class OrderEntity {
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     Customer customer;
 
     @ManyToMany(mappedBy = "orders")
+    @JsonIgnore
     List<Product> products = new ArrayList<>();
 
 }

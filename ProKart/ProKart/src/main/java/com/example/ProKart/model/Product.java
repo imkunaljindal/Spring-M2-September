@@ -2,6 +2,7 @@ package com.example.ProKart.model;
 
 import com.example.ProKart.model.Enum.Category;
 import com.example.ProKart.model.Enum.ProductStatus;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -16,6 +17,7 @@ import java.util.List;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Builder
 public class Product {
 
     @Id
@@ -36,9 +38,11 @@ public class Product {
 
     @ManyToOne
     @JoinColumn
+    @JsonIgnore
     Seller seller;
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name="product_orders",
     joinColumns = @JoinColumn(name="product_id"),
     inverseJoinColumns = @JoinColumn(name="order_entity_id"))
