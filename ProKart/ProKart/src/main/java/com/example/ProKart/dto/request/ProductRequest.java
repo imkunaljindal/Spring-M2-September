@@ -17,7 +17,7 @@ public class ProductRequest {
 
     String productName;
 
-    String price;
+    int price;
 
     Category category;
 

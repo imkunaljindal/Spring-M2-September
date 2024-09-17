@@ -17,6 +17,7 @@ import java.util.List;
 @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
+@Builder
 public class OrderEntity {
 
     @Id

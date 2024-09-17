@@ -13,7 +13,7 @@ public class ProductResponse {
 
     String productName;
 
-    String price;
+    int price;
 
     Category category;
 
