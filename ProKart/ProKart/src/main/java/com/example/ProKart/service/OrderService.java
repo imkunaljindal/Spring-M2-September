@@ -14,6 +14,8 @@ import com.example.ProKart.repo.CustomerRepository;
 import com.example.ProKart.repo.ProductRepository;
 import com.example.ProKart.transformer.OrderTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -31,6 +33,9 @@ public class OrderService {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    JavaMailSender javaMailSender;
 
     public OrderResponse placeOrder(OrderRequest orderRequest) {
 
@@ -79,7 +84,20 @@ public class OrderService {
         customerRepository.save(customer); // customer + order;
         productRepository.saveAll(productsRequested);
 
+        // send email
+        sendEmail(savedOrder);
+
         // return the response;
         return OrderTransformer.orderToOrderResponse(savedOrder);
+    }
+
+    private void sendEmail(OrderEntity savedOrder) {
+        String text = "Hi " + savedOrder.getCustomer().getName() + " your order is placed with total value = "+ savedOrder.getTotalValue();
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("acciojobspring@gmail.com");
+        message.setTo(savedOrder.getCustomer().getEmail());
+        message.setSubject("Order Placed");
+        message.setText(text);
+        javaMailSender.send(message);
     }
 }
